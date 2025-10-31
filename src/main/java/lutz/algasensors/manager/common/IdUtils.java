@@ -1,23 +1,23 @@
 package lutz.algasensors.manager.common;
 
-import java.util.Optional;
-
 import io.hypersistence.tsid.TSID;
 
-public class IdUtils {
+import java.util.Optional;
 
-    private static final TSID.Factory tsidFactory;
+public final class IdUtils {
 
-    static {
-        Optional.ofNullable(System.getenv("tsid.node"))
-                .ifPresent(node -> System.setProperty("tsid.node", node));
+	private static final TSID.Factory tsidFactory;
 
-        Optional.ofNullable(System.getenv("tsid.node.count"))
-                .ifPresent(count -> System.setProperty("tsid.node.count", count));
-        tsidFactory = TSID.Factory.builder().build();
-    }
+	static {
+		Optional.ofNullable(System.getenv("tsid.node"))
+		        .ifPresent(node -> System.setProperty("tsid.node", node));
 
-    public static TSID tsid() {
-        return TSID.Factory.getTsid();
-    }
+		Optional.ofNullable(System.getenv("tsid.node.count"))
+		        .ifPresent(count -> System.setProperty("tsid.node.count", count));
+		tsidFactory = TSID.Factory.builder().build();
+	}
+
+	public static TSID tsid() {
+		return TSID.Factory.getTsid();
+	}
 }
