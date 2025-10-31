@@ -1,4 +1,4 @@
-package lutz.algasensors.manager.utils;
+package lutz.algasensors.manager.common;
 
 import java.util.Optional;
 

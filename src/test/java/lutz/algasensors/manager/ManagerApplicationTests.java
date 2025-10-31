@@ -7,7 +7,7 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import lutz.algasensors.manager.utils.IdUtils;
+import lutz.algasensors.manager.common.IdUtils;
 
 @SpringBootTest
 class ManagerApplicationTests {
