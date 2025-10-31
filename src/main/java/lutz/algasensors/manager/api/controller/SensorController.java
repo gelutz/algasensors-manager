@@ -5,10 +5,11 @@ import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
 import lutz.algasensors.manager.api.model.SensorInput;
 import lutz.algasensors.manager.api.model.SensorOutput;
-import lutz.algasensors.manager.common.IdUtils;
-import lutz.algasensors.manager.domain.model.Sensor;
+import lutz.algasensors.manager.api.service.SensorService;
 import lutz.algasensors.manager.domain.model.SensorId;
-import lutz.algasensors.manager.domain.repository.SensorRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,31 +17,33 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/sensors")
 @RequiredArgsConstructor
 public class SensorController {
-	private final SensorRepository sensorRepository;
+	private final SensorService sensorService;
 
+	@GetMapping
+	public Page<SensorOutput> search(@PageableDefault Pageable pageable) {
+		return sensorService.list(pageable);
+	}
 
 	@GetMapping("{sensorId}")
 	public SensorOutput getOne(@PathVariable TSID sensorId) {
-		var sensor = sensorRepository.findById(new SensorId(sensorId))
-		                             .orElseThrow(() -> new RuntimeException("nenhum sensor encontrado."));
-		return SensorOutput.fromModel(sensor);
+		return sensorService.find(new SensorId(sensorId));
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	public SensorOutput create(@RequestBody SensorInput input) {
-		var sensor = Sensor.builder()
-				.id(new SensorId(IdUtils.tsid()))
-				.name(input.name())
-				.ip(input.ip())
-				.location(input.location())
-				.protocol(input.protocol())
-				.model(input.model())
-				.enabled(false)
-				.build();
+		return sensorService.create(input);
+	}
 
-		sensor = sensorRepository.save(sensor);
+	@PutMapping("{sensorId}")
+	@ResponseStatus(HttpStatus.OK)
+	public SensorOutput update(@PathVariable TSID sensorId, @RequestBody SensorInput data) {
+		return sensorService.update(new SensorId(sensorId), data);
+	}
 
-		return SensorOutput.fromModel(sensor);
+	@DeleteMapping("{sensorId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void delete(@PathVariable TSID sensorId) {
+		sensorService.delete(new SensorId(sensorId));
 	}
 }
