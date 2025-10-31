@@ -1,3 +1,7 @@
+# Personal
+**/*.db
+
+# Generated
 HELP.md
 .gradle
 build/
