@@ -72,4 +72,16 @@ public class SensorService {
 		var sensor = findModel(sensorId);
 		sensorRepository.delete(sensor);
 	}
+
+	public void enable(@NonNull SensorId sensorId) {
+		Sensor sensor = findModel(sensorId);
+		sensor.setEnabled(true);
+		sensorRepository.save(sensor);
+	}
+
+	public void disable(@NonNull SensorId sensorId) {
+		Sensor sensor = findModel(sensorId);
+		sensor.setEnabled(false);
+		sensorRepository.save(sensor);
+	}
 }
