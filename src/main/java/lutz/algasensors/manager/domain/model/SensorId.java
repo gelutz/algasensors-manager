@@ -9,6 +9,7 @@ import java.io.Serializable;
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@EqualsAndHashCode
 public class SensorId implements Serializable {
 	private TSID value;
 

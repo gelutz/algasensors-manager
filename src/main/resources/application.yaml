@@ -4,7 +4,7 @@ spring:
   datasource:
     driverClassName: org.h2.Driver
     password: 123
-    url: jdbc:h2:file:./src/main/java/resources/database/manager-db;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
+    url: jdbc:h2:file:./src/main/resources/database/manager-db;CASE_INSENSITIVE_IDENTIFIERS=TRUE;
     username: sa
   h2:
     console:
