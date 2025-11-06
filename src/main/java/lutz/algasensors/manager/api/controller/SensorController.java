@@ -3,7 +3,7 @@ package lutz.algasensors.manager.api.controller;
 
 import io.hypersistence.tsid.TSID;
 import lombok.RequiredArgsConstructor;
-import lutz.algasensors.manager.api.client.SensorMonitoringClient;
+import lutz.algasensors.manager.api.model.DetailedSensorOutput;
 import lutz.algasensors.manager.api.model.SensorInput;
 import lutz.algasensors.manager.api.model.SensorOutput;
 import lutz.algasensors.manager.api.service.SensorService;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class SensorController {
 	private final SensorService sensorService;
-	private final SensorMonitoringClient sensorMonitoringClient;
 
 	@GetMapping
 	public Page<SensorOutput> search(@PageableDefault Pageable pageable) {
@@ -29,6 +28,11 @@ public class SensorController {
 	@GetMapping("{sensorId}")
 	public SensorOutput getOne(@PathVariable TSID sensorId) {
 		return sensorService.find(new SensorId(sensorId));
+	}
+
+	@GetMapping("{sensorId}/details")
+	public DetailedSensorOutput getDetailed(@PathVariable TSID sensorId) {
+		return sensorService.findDetails(new SensorId(sensorId));
 	}
 
 	@PostMapping
@@ -47,21 +51,17 @@ public class SensorController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable TSID sensorId) {
 		sensorService.delete(new SensorId(sensorId));
-		sensorMonitoringClient.disableMonitoring(sensorId);
 	}
 
 	@PutMapping("{sensorId}/enable")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void enable(@PathVariable TSID sensorId) {
 		sensorService.enable(new SensorId(sensorId));
-		
-		sensorMonitoringClient.enableMonitoring(sensorId);
 	}
 
 	@DeleteMapping("{sensorId}/enable")
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void disable(@PathVariable TSID sensorId) {
 		sensorService.disable(new SensorId(sensorId));
-		sensorMonitoringClient.disableMonitoring(sensorId);
 	}
 }

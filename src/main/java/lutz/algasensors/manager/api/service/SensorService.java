@@ -2,6 +2,8 @@ package lutz.algasensors.manager.api.service;
 
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
+import lutz.algasensors.manager.api.client.SensorMonitoringClient;
+import lutz.algasensors.manager.api.model.DetailedSensorOutput;
 import lutz.algasensors.manager.api.model.SensorInput;
 import lutz.algasensors.manager.api.model.SensorOutput;
 import lutz.algasensors.manager.common.IdUtils;
@@ -21,6 +23,7 @@ import java.lang.reflect.RecordComponent;
 @RequiredArgsConstructor
 public class SensorService {
 	private final SensorRepository sensorRepository;
+	private final SensorMonitoringClient sensorMonitoringClient;
 
 	public Page<SensorOutput> list(@NonNull Pageable pageable) {
 		return sensorRepository.findAll(pageable).map(SensorOutput::fromModel);
@@ -31,8 +34,18 @@ public class SensorService {
 	}
 
 	public @NonNull SensorOutput find(@NonNull SensorId id) {
-		var sensor = sensorRepository.findById(id).orElseThrow(ResourceNotFoundException::new);
+		var sensor = findModel(id);
 		return SensorOutput.fromModel(sensor);
+	}
+
+	public @NonNull DetailedSensorOutput findDetails(@NonNull SensorId id) {
+		var sensor = findModel(id);
+		var details = sensorMonitoringClient.getMonitoringDetails(id.getValue());
+
+		return new DetailedSensorOutput(
+				SensorOutput.fromModel(sensor),
+				details
+		);
 	}
 
 	public SensorOutput create(SensorInput input) {
@@ -76,12 +89,18 @@ public class SensorService {
 	public void enable(@NonNull SensorId sensorId) {
 		Sensor sensor = findModel(sensorId);
 		sensor.setEnabled(true);
+
+		sensorMonitoringClient.enableMonitoring(sensorId.getValue());
+
 		sensorRepository.save(sensor);
 	}
 
 	public void disable(@NonNull SensorId sensorId) {
 		Sensor sensor = findModel(sensorId);
 		sensor.setEnabled(false);
+
+		sensorMonitoringClient.disableMonitoring(sensorId.getValue());
+
 		sensorRepository.save(sensor);
 	}
 }

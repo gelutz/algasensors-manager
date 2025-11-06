@@ -47,7 +47,7 @@ public class GlobalControllerExceptionHandler {
 
 	@ExceptionHandler(ResourceNotFoundException.class)
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	public ProblemDetail handleResourceNotFoundException(ResourceNotFoundException ex) {
+	public ProblemDetail handleResourceNotFoundException(ResourceNotFoundException ignored) {
 		ProblemDetail problemDetail = ProblemDetail
 				.forStatus(HttpStatus.NOT_FOUND);
 		problemDetail.setTitle("Resource not found");
