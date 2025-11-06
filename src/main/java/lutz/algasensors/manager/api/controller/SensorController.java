@@ -32,7 +32,7 @@ public class SensorController {
 
 	@GetMapping("{sensorId}/details")
 	public DetailedSensorOutput getDetailed(@PathVariable TSID sensorId) {
-		return sensorService.findDetails(new SensorId(sensorId));
+		return sensorService.findDetails(sensorId);
 	}
 
 	@PostMapping

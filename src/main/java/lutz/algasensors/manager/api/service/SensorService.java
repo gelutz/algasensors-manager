@@ -1,5 +1,6 @@
 package lutz.algasensors.manager.api.service;
 
+import io.hypersistence.tsid.TSID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lutz.algasensors.manager.api.client.SensorMonitoringClient;
@@ -38,9 +39,9 @@ public class SensorService {
 		return SensorOutput.fromModel(sensor);
 	}
 
-	public @NonNull DetailedSensorOutput findDetails(@NonNull SensorId id) {
-		var sensor = findModel(id);
-		var details = sensorMonitoringClient.getMonitoringDetails(id.getValue());
+	public @NonNull DetailedSensorOutput findDetails(@NonNull TSID id) {
+		var sensor = findModel(new SensorId(id));
+		var details = sensorMonitoringClient.getMonitoringDetails(id);
 
 		return new DetailedSensorOutput(
 				SensorOutput.fromModel(sensor),

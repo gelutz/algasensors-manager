@@ -19,7 +19,7 @@ public class SensorMonitoringClientImpl implements SensorMonitoringClient {
 	@Override
 	public SensorMonitoringOutput getMonitoringDetails(TSID sensorId) {
 		return restClient.get()
-		                 .uri("/api/sensors/{sensorId}/monitoring")
+		                 .uri("/api/sensors/{sensorId}/monitoring", sensorId)
 		                 .retrieve()
 		                 .body(SensorMonitoringOutput.class);
 	}
