@@ -10,8 +10,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import lutz.algasensors.manager.domain.exceptions.ClientBadGatewayException;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class RestClientFactory {
