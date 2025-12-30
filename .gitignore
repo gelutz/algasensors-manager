@@ -1,20 +1,11 @@
-# Personal
-**/*.db
-**/bin/
-
-# Generated
-HELP.md
-.gradle
+bin/
 build/
+.settings/
+
+.gradle/
 !gradle/wrapper/gradle-wrapper.jar
-!**/src/main/**/build/
-!**/src/test/**/build/
 
 ### IntelliJ IDEA ###
-.idea
-*.iws
-*.iml
-*.ipr
 out/
 !**/src/main/**/out/
 !**/src/test/**/out/
