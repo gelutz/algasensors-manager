@@ -4,6 +4,7 @@ import io.hypersistence.tsid.TSID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lutz.algasensors.manager.api.client.SensorMonitoringClient;
+import lutz.algasensors.manager.api.model.DailyMedianTemperatureOutput;
 import lutz.algasensors.manager.api.model.DetailedSensorOutput;
 import lutz.algasensors.manager.api.model.SensorInput;
 import lutz.algasensors.manager.api.model.SensorOutput;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.RecordComponent;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -103,5 +105,9 @@ public class SensorService {
 		sensorMonitoringClient.disableMonitoring(sensorId.getValue());
 
 		sensorRepository.save(sensor);
+	}
+
+	public List<DailyMedianTemperatureOutput> getDailyMedianTemperatures(@NonNull TSID sensorId) {
+		return sensorMonitoringClient.getDailyMedianTemperatures(sensorId);
 	}
 }

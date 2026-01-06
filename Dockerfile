@@ -10,6 +10,9 @@ RUN gradle clean bootJar -x test
 # Runtime stage
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
+
+RUN apk add --no-cache curl
+
 COPY --from=builder /app/build/libs/manager-*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]

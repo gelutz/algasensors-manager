@@ -7,16 +7,22 @@ import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PutExchange;
 
 import io.hypersistence.tsid.TSID;
+import lutz.algasensors.manager.api.model.DailyMedianTemperatureOutput;
 import lutz.algasensors.manager.api.model.SensorMonitoringOutput;
 
-@HttpExchange("/api/sensors/{sensorId}/monitoring")
+import java.util.List;
+
+@HttpExchange("/api/sensors/{sensorId}")
 public interface SensorMonitoringClient {
-	@GetExchange
+	@GetExchange("/monitoring")
 	SensorMonitoringOutput getMonitoringDetails(@PathVariable TSID sensorId);
 
-	@PutExchange("/enable")
+	@PutExchange("/monitoring/enable")
 	void enableMonitoring(@PathVariable TSID sensorId);
 
-	@DeleteExchange("/enable")
+	@DeleteExchange("/monitoring/enable")
 	void disableMonitoring(@PathVariable TSID sensorId);
+
+	@GetExchange("/temperatures/daily-median")
+	List<DailyMedianTemperatureOutput> getDailyMedianTemperatures(@PathVariable TSID sensorId);
 }
