@@ -8,6 +8,7 @@ import lutz.algasensors.manager.api.model.DailyMedianTemperatureOutput;
 import lutz.algasensors.manager.api.model.DetailedSensorOutput;
 import lutz.algasensors.manager.api.model.SensorInput;
 import lutz.algasensors.manager.api.model.SensorOutput;
+import lutz.algasensors.manager.api.model.TemperatureLogOutput;
 import lutz.algasensors.manager.common.IdUtils;
 import lutz.algasensors.manager.common.StringUtils;
 import lutz.algasensors.manager.domain.exceptions.ResourceNotFoundException;
@@ -109,5 +110,9 @@ public class SensorService {
 
 	public List<DailyMedianTemperatureOutput> getDailyMedianTemperatures(@NonNull TSID sensorId) {
 		return sensorMonitoringClient.getDailyMedianTemperatures(sensorId);
+	}
+
+	public List<TemperatureLogOutput> getTemperatureHistory(@NonNull TSID sensorId, int days) {
+		return sensorMonitoringClient.getTemperatureHistory(sensorId, days);
 	}
 }

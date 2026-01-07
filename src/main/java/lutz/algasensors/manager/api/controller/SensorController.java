@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,6 +23,7 @@ import lutz.algasensors.manager.api.model.DailyMedianTemperatureOutput;
 import lutz.algasensors.manager.api.model.DetailedSensorOutput;
 import lutz.algasensors.manager.api.model.SensorInput;
 import lutz.algasensors.manager.api.model.SensorOutput;
+import lutz.algasensors.manager.api.model.TemperatureLogOutput;
 import lutz.algasensors.manager.api.service.SensorService;
 import lutz.algasensors.manager.domain.model.SensorId;
 
@@ -79,5 +81,12 @@ public class SensorController {
 	@GetMapping("{sensorId}/temperatures/daily-median")
 	public List<DailyMedianTemperatureOutput> getDailyMedianTemperatures(@PathVariable TSID sensorId) {
 		return sensorService.getDailyMedianTemperatures(sensorId);
+	}
+
+	@GetMapping("{sensorId}/temperatures/history")
+	public List<TemperatureLogOutput> getTemperatureHistory(
+			@PathVariable TSID sensorId,
+			@RequestParam(defaultValue = "7") int days) {
+		return sensorService.getTemperatureHistory(sensorId, days);
 	}
 }

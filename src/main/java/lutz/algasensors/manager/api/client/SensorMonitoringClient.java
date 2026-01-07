@@ -1,6 +1,7 @@
 package lutz.algasensors.manager.api.client;
 
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.DeleteExchange;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
@@ -9,6 +10,7 @@ import org.springframework.web.service.annotation.PutExchange;
 import io.hypersistence.tsid.TSID;
 import lutz.algasensors.manager.api.model.DailyMedianTemperatureOutput;
 import lutz.algasensors.manager.api.model.SensorMonitoringOutput;
+import lutz.algasensors.manager.api.model.TemperatureLogOutput;
 
 import java.util.List;
 
@@ -25,4 +27,7 @@ public interface SensorMonitoringClient {
 
 	@GetExchange("/temperatures/daily-median")
 	List<DailyMedianTemperatureOutput> getDailyMedianTemperatures(@PathVariable TSID sensorId);
+
+	@GetExchange("/temperatures/history")
+	List<TemperatureLogOutput> getTemperatureHistory(@PathVariable TSID sensorId, @RequestParam int days);
 }
